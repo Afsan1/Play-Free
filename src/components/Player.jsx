@@ -4,19 +4,19 @@ import { useState, useEffect } from 'react';
 import styles from './Player.module.css';
 
 export default function Player({ type, id, season, episode }) {
-  const [source, setSource] = useState('vidsrc');
+  const [source, setSource] = useState('embedsu');
   const [isLoading, setIsLoading] = useState(true);
   
   const sources = {
-    vidsrc: type === 'movie' 
-      ? `https://vidsrc.to/embed/movie/${id}`
-      : `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`,
     embedsu: type === 'movie'
       ? `https://embed.su/embed/movie/${id}`
       : `https://embed.su/embed/tv/${id}/${season}/${episode}`,
     vidsrc_me: type === 'movie'
       ? `https://vidsrc.me/embed/movie?tmdb=${id}`
       : `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${season}&epi=${episode}`,
+    vidsrc: type === 'movie' 
+      ? `https://vidsrc.to/embed/movie/${id}`
+      : `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`,
   };
 
   useEffect(() => {
