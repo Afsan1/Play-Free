@@ -93,8 +93,29 @@
 @media (max-width: 768px) {
   .navbar {
     padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  .logo {
+    font-size: 1.2rem;
   }
   .navLinks {
     display: none;
+  }
+  .navActions {
+    gap: 0.5rem;
+  }
+  .searchBox {
+    padding: 0.4rem 0.6rem;
+  }
+  .searchBox input {
+    width: 80px;
+    font-size: 0.8rem;
+  }
+  .searchBox input:focus {
+    width: 120px;
+  }
+  .signInBtn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
   }
 }

@@ -79,3 +79,27 @@
     font-size: 1.8rem;
   }
 }
+
+@media (max-width: 768px) {
+  .infoWrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .posterSide {
+    width: 150px; /* Smaller poster on mobile */
+  }
+  .header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .meta {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+}

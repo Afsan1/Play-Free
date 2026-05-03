@@ -55,3 +55,22 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  .seasonPicker select {
+    width: 100%;
+  }
+  .episodeGrid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 0.5rem;
+  }
+  .episodeBtn {
+    padding: 0.5rem;
+  }
+  .epName {
+    font-size: 0.75rem;
+  }
+}

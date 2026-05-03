@@ -10,6 +10,7 @@
   padding: 1rem 0;
   scroll-behavior: smooth;
   scrollbar-width: none; /* Hide for Firefox */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .container::-webkit-scrollbar {
