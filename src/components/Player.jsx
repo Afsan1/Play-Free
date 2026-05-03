@@ -21,6 +21,13 @@ export default function Player({ type, id, season, episode }) {
 
   useEffect(() => {
     setIsLoading(true);
+    
+    // Fallback for mobile browsers where iframe onLoad might not fire
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, [id, season, episode, source]);
 
   return (
