@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Player.module.css';
 
 export default function Player({ type, id, season, episode }) {
   const [source, setSource] = useState('embedsu');
   const [isLoading, setIsLoading] = useState(true);
+  const containerRef = useRef(null);
   
   const sources = {
     embedsu: type === 'movie'
@@ -30,6 +31,30 @@ export default function Player({ type, id, season, episode }) {
     return () => clearTimeout(timer);
   }, [id, season, episode, source]);
 
+  useEffect(() => {
+    if (containerRef.current) {
+      // Clear previous iframe
+      containerRef.current.innerHTML = '';
+      
+      // Create iframe natively to completely bypass React attribute stripping
+      const iframe = document.createElement('iframe');
+      iframe.src = sources[source];
+      iframe.className = styles.iframe;
+      iframe.setAttribute('frameBorder', '0');
+      
+      // Native Fullscreen and Media permissions
+      iframe.setAttribute('allowfullscreen', 'true');
+      iframe.setAttribute('webkitallowfullscreen', 'true');
+      iframe.setAttribute('mozallowfullscreen', 'true');
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+      iframe.setAttribute('referrerPolicy', 'origin');
+      
+      iframe.onload = () => setIsLoading(false);
+      
+      containerRef.current.appendChild(iframe);
+    }
+  }, [source, id, season, episode, type]);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.sourceSelector}>
@@ -52,17 +77,9 @@ export default function Player({ type, id, season, episode }) {
             <p>Connecting to {source} server...</p>
           </div>
         )}
-        <iframe
-          src={sources[source]}
-          className={styles.iframe}
-          allowfullscreen="true"
-          webkitallowfullscreen="true"
-          mozallowfullscreen="true"
-          allow="autoplay; fullscreen; picture-in-picture"
-          referrerPolicy="origin"
-          frameBorder="0"
-          onLoad={() => setIsLoading(false)}
-        ></iframe>
+        
+        {/* Container for native iframe injection */}
+        <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}></div>
       </div>
 
       <div className={styles.warning}>
