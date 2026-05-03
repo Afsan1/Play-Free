@@ -14,12 +14,12 @@ export default function Player({ type, id, season, episode }) {
     embedsu: type === 'movie'
       ? `https://embed.su/embed/movie/${id}`
       : `https://embed.su/embed/tv/${id}/${season}/${episode}`,
-    vidsrc_me: type === 'movie'
-      ? `https://vidsrc.me/embed/movie?tmdb=${id}`
-      : `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${season}&epi=${episode}`,
-    vidsrc: type === 'movie'
-      ? `https://vidsrc.to/embed/movie/${id}`
-      : `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`,
+    '2embed': type === 'movie'
+      ? `https://www.2embed.cc/embed/${id}`
+      : `https://www.2embed.cc/embedtv/${id}&s=${season}&e=${episode}`,
+    autoembed: type === 'movie'
+      ? `https://autoembed.co/movie/tmdb/${id}`
+      : `https://autoembed.co/tv/tmdb/${id}-${season}-${episode}`,
   };
 
   // Timeout fallback so loader doesn't get stuck on mobile
