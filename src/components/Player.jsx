@@ -7,6 +7,8 @@ export default function Player({ type, id, season, episode }) {
   const [source, setSource] = useState('embedsu');
   const [isLoading, setIsLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isCssFullscreen, setIsCssFullscreen] = useState(false);
+  const wrapperRef = useRef(null);
   const containerRef = useRef(null);
   const iframeRef = useRef(null);
 
@@ -48,14 +50,17 @@ export default function Player({ type, id, season, episode }) {
     containerRef.current.appendChild(iframe);
   }, [source, id, season, episode, type]);
 
-  // Track fullscreen changes to update button icon
+  // Track NATIVE fullscreen changes (desktop)
   useEffect(() => {
     const handleFsChange = () => {
-      setIsFullscreen(
-        !!(document.fullscreenElement ||
-          document.webkitFullscreenElement ||
-          document.mozFullScreenElement)
+      const nativeFs = !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement
       );
+      setIsFullscreen(nativeFs);
+      // If native fullscreen exited, also exit css fullscreen
+      if (!nativeFs) setIsCssFullscreen(false);
     };
     document.addEventListener('fullscreenchange', handleFsChange);
     document.addEventListener('webkitfullscreenchange', handleFsChange);
@@ -67,39 +72,73 @@ export default function Player({ type, id, season, episode }) {
     };
   }, []);
 
-  // Our own fullscreen button — directly calls requestFullscreen on the iframe
+  // Lock/unlock body scroll when CSS fullscreen is active
+  useEffect(() => {
+    if (isCssFullscreen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isCssFullscreen]);
+
   const handleFullscreen = () => {
     const iframe = iframeRef.current;
-    if (!iframe) return;
+    const active = isFullscreen || isCssFullscreen;
 
-    if (!isFullscreen) {
-      if (iframe.requestFullscreen) iframe.requestFullscreen();
-      else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-      else if (iframe.mozRequestFullScreen) iframe.mozRequestFullScreen();
-      else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+    if (!active) {
+      // Try native fullscreen first (works on Android Chrome + Desktop)
+      const nativeFsWorks =
+        iframe?.requestFullscreen ||
+        iframe?.webkitRequestFullscreen ||
+        iframe?.mozRequestFullScreen;
+
+      if (nativeFsWorks && document.fullscreenEnabled) {
+        try {
+          if (iframe.requestFullscreen) iframe.requestFullscreen();
+          else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+          else if (iframe.mozRequestFullScreen) iframe.mozRequestFullScreen();
+          return;
+        } catch (e) {
+          // Fall through to CSS fullscreen below
+        }
+      }
+
+      // CSS fullscreen fallback (iOS Safari, restricted browsers)
+      setIsCssFullscreen(true);
     } else {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-      else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+      // Exit fullscreen
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+      }
+      setIsCssFullscreen(false);
+      setIsFullscreen(false);
     }
   };
 
-  return (
-    <div className={styles.wrapper}>
-      <div className={styles.sourceSelector}>
-        {Object.keys(sources).map((src) => (
-          <button
-            key={src}
-            onClick={() => setSource(src)}
-            className={source === src ? styles.active : ''}
-            suppressHydrationWarning
-          >
-            Server {src.split('_').join(' ').toUpperCase()}
-          </button>
-        ))}
-      </div>
+  const active = isFullscreen || isCssFullscreen;
 
-      <div className={styles.playerContainer}>
+  return (
+    <div className={styles.wrapper} ref={wrapperRef}>
+      {/* Hide server buttons when in CSS fullscreen */}
+      {!isCssFullscreen && (
+        <div className={styles.sourceSelector}>
+          {Object.keys(sources).map((src) => (
+            <button
+              key={src}
+              onClick={() => setSource(src)}
+              className={source === src ? styles.active : ''}
+              suppressHydrationWarning
+            >
+              Server {src.split('_').join(' ').toUpperCase()}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className={`${styles.playerContainer} ${isCssFullscreen ? styles.cssFullscreen : ''}`}>
         {isLoading && (
           <div className={styles.loader}>
             <div className={styles.spinner}></div>
@@ -113,19 +152,17 @@ export default function Player({ type, id, season, episode }) {
           style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
         />
 
-        {/* Custom fullscreen button — always works regardless of iframe restrictions */}
+        {/* Custom fullscreen button */}
         <button
           className={styles.fullscreenBtn}
           onClick={handleFullscreen}
-          title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+          title={active ? 'Exit Fullscreen' : 'Enter Fullscreen'}
         >
-          {isFullscreen ? (
-            /* Exit icon */
+          {active ? (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
               <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
             </svg>
           ) : (
-            /* Enter icon */
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
               <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
             </svg>
@@ -133,9 +170,11 @@ export default function Player({ type, id, season, episode }) {
         </button>
       </div>
 
-      <div className={styles.warning}>
-        <p>Tip: If a server is slow, try switching servers above. Use an Ad-Blocker for the best experience.</p>
-      </div>
+      {!isCssFullscreen && (
+        <div className={styles.warning}>
+          <p>Tip: If a server is slow, try switching servers above. Use an Ad-Blocker for the best experience.</p>
+        </div>
+      )}
     </div>
   );
 }

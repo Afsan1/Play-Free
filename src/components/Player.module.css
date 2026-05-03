@@ -13,6 +13,19 @@
   border: 1px solid var(--glass-border);
 }
 
+/* CSS fullscreen for iOS Safari where requestFullscreen() is blocked */
+.cssFullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  padding-top: 0 !important;
+  z-index: 99999 !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
 .loader {
   position: absolute;
   top: 0;
