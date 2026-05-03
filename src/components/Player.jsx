@@ -55,8 +55,11 @@ export default function Player({ type, id, season, episode }) {
         <iframe
           src={sources[source]}
           className={styles.iframe}
-          allowFullScreen
-          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+          allowFullScreen="true"
+          webkitallowfullscreen="true"
+          mozallowfullscreen="true"
+          allow="autoplay; fullscreen"
+          referrerPolicy="origin"
           frameBorder="0"
           onLoad={() => setIsLoading(false)}
         ></iframe>
