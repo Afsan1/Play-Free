@@ -1,0 +1,34 @@
+.container {
+  padding: calc(var(--nav-height) + 4rem) 4rem 4rem;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+.noResults {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  margin-top: 4rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: calc(var(--nav-height) + 2rem) 1rem 2rem;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+}

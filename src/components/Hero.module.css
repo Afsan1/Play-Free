@@ -1,0 +1,122 @@
+.hero {
+  position: relative;
+  height: 85vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, var(--background) 0%, transparent 50%, transparent 100%),
+              linear-gradient(to top, var(--background) 0%, transparent 30%);
+}
+
+.content {
+  position: relative;
+  max-width: 1100px;
+  padding: 0 4rem;
+  z-index: 10;
+}
+
+.flexInfo {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.posterWrapper {
+  flex-shrink: 0;
+  width: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  border: 1px solid var(--glass-border);
+}
+
+.smallPoster {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.textDetails {
+  flex: 1;
+}
+
+.title {
+  font-size: 4rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+
+.overview {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.primary {
+  background: var(--accent);
+  color: white;
+  border: none;
+}
+
+.primary:hover {
+  background: #60a5fa;
+  transform: scale(1.05);
+}
+
+
+
+@media (max-width: 768px) {
+  .content {
+    padding: 0 1rem;
+  }
+  .title {
+    font-size: 2.5rem;
+  }
+}

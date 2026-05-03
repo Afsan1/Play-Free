@@ -1,0 +1,160 @@
+:root {
+  --background: #020617; /* Deepest Blue-Black */
+  --foreground: #f8fafc;
+  --accent: #3b82f6; /* Electric Blue */
+  --accent-glow: rgba(59, 130, 246, 0.5);
+  --surface: #0f172a;
+  --surface-hover: #1e293b;
+  --text-muted: #64748b;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --nav-height: 70px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-outfit), sans-serif;
+  font-weight: 700;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-nav {
+  background: rgba(5, 5, 5, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-hover);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 24px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* --- CLERK GLOBAL VISIBILITY OVERRIDES --- */
+/* Target the root container of Clerk modals */
+.cl-rootBox {
+  color: #ffffff !important;
+}
+
+/* Force text elements inside Clerk modals to be white */
+.cl-rootBox h1, 
+.cl-rootBox h2, 
+.cl-rootBox h3, 
+.cl-rootBox h4, 
+.cl-rootBox h5, 
+.cl-rootBox h6,
+.cl-rootBox p,
+.cl-rootBox label {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* Safely target spans and divs for color only, without breaking layout/opacity animations */
+.cl-rootBox span,
+.cl-rootBox div {
+  color: #ffffff !important;
+}
+
+/* Fix input text and placeholder visibility */
+.cl-rootBox input {
+  color: #ffffff !important;
+}
+.cl-rootBox input::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+/* Keep primary buttons and links readable */
+.cl-rootBox a,
+.cl-rootBox a *,
+.cl-rootBox button[data-variant="solid"] * {
+  color: inherit;
+}
+
+/* Force specific Clerk internal profile section texts to white */
+.cl-profileSectionTitle p,
+.cl-profileSectionTitleText,
+.cl-profileSectionContent p,
+.cl-badge {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}

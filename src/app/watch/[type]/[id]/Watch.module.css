@@ -1,0 +1,81 @@
+.watchContainer {
+  padding: calc(var(--nav-height) + 2rem) 4rem 4rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.mainContent {
+  width: 100%;
+}
+
+.details {
+  margin-top: 2rem;
+}
+
+.infoWrapper {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.posterSide {
+  flex-shrink: 0;
+  width: 200px;
+}
+
+.mainPoster {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.textSide {
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.meta {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+.rating {
+  color: #ffc107;
+  font-weight: 700;
+}
+
+.type {
+  text-transform: uppercase;
+  background: var(--surface);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.overview {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 1000px;
+}
+
+@media (max-width: 1024px) {
+  .watchContainer {
+    padding: calc(var(--nav-height) + 1rem) 1rem 2rem;
+  }
+  .title {
+    font-size: 1.8rem;
+  }
+}

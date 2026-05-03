@@ -1,0 +1,100 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4rem;
+  z-index: 1000;
+  transition: background 0.3s ease;
+}
+
+.scrolled {
+  background: rgba(5, 5, 5, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.logo {
+  font-size: 2rem;
+  font-family: var(--font-outfit);
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -1px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.navLinks a {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.navLinks a:hover, .navLinks a.active {
+  color: var(--foreground);
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+}
+
+.searchBox input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--foreground);
+  margin-left: 0.5rem;
+  width: 150px;
+  transition: width 0.3s ease;
+}
+
+.searchBox input:focus {
+  width: 250px;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.authWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.signInBtn {
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.signInBtn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+  .navLinks {
+    display: none;
+  }
+}
